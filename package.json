@@ -2,7 +2,7 @@
   "name": "practics_react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://AliievLomach-Maxim.github.io/practics_react/",
+  "homepage": "https://AliievLomach-Maxim.github.io/practices_react/",
   "author":"https://github.com/AliievLomach-Maxim",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
