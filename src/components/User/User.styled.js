@@ -20,3 +20,13 @@ export const NativeText = styled.span`
         text-shadow: 1px 1px 0.5em teal;
     }
 `
+
+export const StyledButton = styled.button`
+    cursor: pointer;
+    min-width: 120px;
+    padding: 10px;
+    background-color: burlywood;
+    border-radius: 8px;
+    display: block;
+    margin-top: 10px;
+`
