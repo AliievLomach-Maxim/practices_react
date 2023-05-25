@@ -4,18 +4,7 @@ import Section from '../Section/Section'
 import { StyledButton, NativeText, Text, Title } from './User.styled'
 
 const User = ({
-    user: {
-        id,
-        name,
-        address,
-        avatarUrl,
-        username,
-        website,
-        phone,
-        company,
-        email,
-        hasJob,
-    },
+    user: { id, name, avatarUrl, username, website, phone, email, hasJob },
     deleteUsers,
     changeJobStatus,
 }) => {
@@ -24,11 +13,10 @@ const User = ({
     return (
         <Section>
             <li>
-                <img src={avatarUrl} alt={name} />
+                <img src={avatarUrl} alt={'Avatar'} />
                 <Title>
                     {username} {name}
                 </Title>
-                <h4>City: {address.city}</h4>
                 <Text>
                     Phone: <NativeText>{phone}</NativeText>
                 </Text>
@@ -38,7 +26,6 @@ const User = ({
                     <NativeText isEndedBiz={isEndedBiz}>{email}</NativeText>
                 </Text>
                 <a href={website}> {website}</a>
-                <h5>Company: {company.name}</h5>
                 <StyledButton onClick={() => deleteUsers(id)}>
                     Delete
                 </StyledButton>
@@ -57,14 +44,8 @@ User.propTypes = {
         username: PropTypes.string.isRequired,
         avatarUrl: PropTypes.string.isRequired,
         email: PropTypes.string.isRequired,
-        address: PropTypes.shape({
-            city: PropTypes.string.isRequired,
-        }),
         phone: PropTypes.string.isRequired,
         website: PropTypes.string.isRequired,
-        company: PropTypes.shape({
-            name: PropTypes.string.isRequired,
-        }),
         hasJob: PropTypes.bool.isRequired,
     }),
     deleteUsers: PropTypes.func.isRequired,
