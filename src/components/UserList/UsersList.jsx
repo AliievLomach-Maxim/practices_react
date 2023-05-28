@@ -2,7 +2,7 @@ import React from 'react'
 import User from '../User/User'
 import PropTypes from 'prop-types'
 
-const UsersList = ({ users, deleteUsers, changeJobStatus }) => {
+const UsersList = ({ users, deleteUsers, changeJobStatus, openDetails }) => {
     return (
         <ul>
             {users.map(el => (
@@ -11,6 +11,7 @@ const UsersList = ({ users, deleteUsers, changeJobStatus }) => {
                     user={el}
                     deleteUsers={deleteUsers}
                     changeJobStatus={changeJobStatus}
+                    openDetails={openDetails}
                 />
             ))}
         </ul>
@@ -20,23 +21,23 @@ const UsersList = ({ users, deleteUsers, changeJobStatus }) => {
 UsersList.propTypes = {
     users: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.number.isRequired,
+            id: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+                .isRequired,
             name: PropTypes.string.isRequired,
-            username: PropTypes.string.isRequired,
-            avatarUrl: PropTypes.string.isRequired,
+            username: PropTypes.string,
+            avatarUrl: PropTypes.string,
             email: PropTypes.string.isRequired,
             address: PropTypes.shape({
-                city: PropTypes.string.isRequired,
+                city: PropTypes.string,
             }),
-            phone: PropTypes.string.isRequired,
-            website: PropTypes.string.isRequired,
-            company: PropTypes.shape({
-                name: PropTypes.string.isRequired,
-            }),
+            phone: PropTypes.string,
+            website: PropTypes.string,
+            hasJob: PropTypes.bool.isRequired,
         })
     ),
     deleteUsers: PropTypes.func.isRequired,
     changeJobStatus: PropTypes.func.isRequired,
+    openDetails: PropTypes.func.isRequired,
 }
 
 export default UsersList

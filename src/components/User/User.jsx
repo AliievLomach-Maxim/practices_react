@@ -7,6 +7,7 @@ const User = ({
     user: { id, name, avatarUrl, username, website, phone, email, hasJob },
     deleteUsers,
     changeJobStatus,
+    openDetails,
 }) => {
     const isEndedBiz = email.endsWith('biz')
 
@@ -26,11 +27,18 @@ const User = ({
                     <NativeText isEndedBiz={isEndedBiz}>{email}</NativeText>
                 </Text>
                 <a href={website}> {website}</a>
-                <StyledButton onClick={() => deleteUsers(id)}>
-                    Delete
+                <StyledButton
+                    onClick={() =>
+                        openDetails({ name, avatarUrl, email, hasJob })
+                    }
+                >
+                    Show Details
                 </StyledButton>
                 <StyledButton onClick={() => changeJobStatus(id)}>
                     Change job Status
+                </StyledButton>
+                <StyledButton onClick={() => deleteUsers(id)}>
+                    Delete
                 </StyledButton>
             </li>
         </Section>
@@ -39,17 +47,19 @@ const User = ({
 
 User.propTypes = {
     user: PropTypes.shape({
-        id: PropTypes.number.isRequired,
+        id: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+            .isRequired,
         name: PropTypes.string.isRequired,
-        username: PropTypes.string.isRequired,
-        avatarUrl: PropTypes.string.isRequired,
+        username: PropTypes.string,
+        avatarUrl: PropTypes.string,
         email: PropTypes.string.isRequired,
-        phone: PropTypes.string.isRequired,
-        website: PropTypes.string.isRequired,
+        phone: PropTypes.string,
+        website: PropTypes.string,
         hasJob: PropTypes.bool.isRequired,
     }),
     deleteUsers: PropTypes.func.isRequired,
     changeJobStatus: PropTypes.func.isRequired,
+    openDetails: PropTypes.func.isRequired,
 }
 
 export default User
