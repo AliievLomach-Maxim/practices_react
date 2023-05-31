@@ -4,9 +4,8 @@ import Section from '../Section/Section'
 import { StyledButton, NativeText, Text, Title } from './User.styled'
 
 const User = ({
-    user: { id, name, avatarUrl, username, website, phone, email, hasJob },
+    user: { id, firstName, image, email, phone },
     deleteUsers,
-    changeJobStatus,
     openDetails,
 }) => {
     const isEndedBiz = email.endsWith('biz')
@@ -14,28 +13,19 @@ const User = ({
     return (
         <Section>
             <li>
-                <img src={avatarUrl} alt={'Avatar'} />
-                <Title>
-                    {username} {name}
-                </Title>
+                <img src={image} alt={'Avatar'} width="200px" />
+                <Title>{firstName}</Title>
                 <Text>
                     Phone: <NativeText>{phone}</NativeText>
                 </Text>
-                <Text>Has Job: {hasJob.toString()}</Text>
                 <Text>
                     Email:
                     <NativeText isEndedBiz={isEndedBiz}>{email}</NativeText>
                 </Text>
-                <a href={website}> {website}</a>
                 <StyledButton
-                    onClick={() =>
-                        openDetails({ name, avatarUrl, email, hasJob })
-                    }
+                    onClick={() => openDetails({ firstName, image, email })}
                 >
                     Show Details
-                </StyledButton>
-                <StyledButton onClick={() => changeJobStatus(id)}>
-                    Change job Status
                 </StyledButton>
                 <StyledButton onClick={() => deleteUsers(id)}>
                     Delete
@@ -47,18 +37,13 @@ const User = ({
 
 User.propTypes = {
     user: PropTypes.shape({
-        id: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
-            .isRequired,
-        name: PropTypes.string.isRequired,
-        username: PropTypes.string,
-        avatarUrl: PropTypes.string,
+        id: PropTypes.number.isRequired,
+        firstName: PropTypes.string.isRequired,
+        image: PropTypes.string,
         email: PropTypes.string.isRequired,
         phone: PropTypes.string,
-        website: PropTypes.string,
-        hasJob: PropTypes.bool.isRequired,
     }),
     deleteUsers: PropTypes.func.isRequired,
-    changeJobStatus: PropTypes.func.isRequired,
     openDetails: PropTypes.func.isRequired,
 }
 
