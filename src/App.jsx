@@ -3,8 +3,10 @@ import Section from 'components/Section/Section'
 import UsersList from './components/UserList/UsersList'
 import Button from 'components/Button/Button'
 import Modal from 'components/Modal/Modal'
-import { createUser, getUsers } from 'api/api'
+import { createUser, getUsers, searchUser } from 'api/api'
 import FormikForm from 'components/Form/FormikForm'
+import SearchForm from './components/Form/SearchForm'
+import { Toaster, toast } from 'react-hot-toast'
 
 const SKIP = 10
 const LIMIT = 10
@@ -14,36 +16,37 @@ const App = () => {
     const [userDetails, setUserDetails] = useState(null)
     const [isShowUsers, setIsShowUsers] = useState(false)
     const [isShowForm, setIsShowForm] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState('')
     const [page, setPage] = useState(1)
+    const [searchQuery, setSearchQuery] = useState('')
 
     useEffect(() => {
         isShowUsers && handleUsers(page)
     }, [isShowUsers, page])
 
-    const handleUsers = async page => {
-        const skip = page * SKIP - LIMIT
-        setIsLoading(true)
+    const handleUsers = async pageNumber => {
+        const skip = pageNumber * SKIP - LIMIT
+        const toastId = toast.loading('Loading...')
         try {
-            const { users } = await getUsers(skip, LIMIT)
+            const { users, total } = await getUsers(skip, LIMIT)
             setUsers(prev => (prev ? [...prev, ...users] : users))
-            setIsLoading(false)
+            toast.success(`Total: ${total} users`, {
+                id: toastId,
+            })
         } catch (error) {
-            setIsLoading(false)
-            setError(error.message)
+            toast.error(error.message)
         }
     }
 
     const addUser = async user => {
-        setIsLoading(true)
+        const toastId = toast.loading('Loading...')
         try {
             const data = await createUser(user)
             setUsers(prev => (prev ? [data, ...prev] : [data]))
-            setIsLoading(false)
+            toast.success('Create user successfully', {
+                id: toastId,
+            })
         } catch (error) {
-            setIsLoading(false)
-            setError(error.message)
+            toast.error(error.message)
         }
     }
 
@@ -62,42 +65,74 @@ const App = () => {
     const showUsers = () => setIsShowUsers(true)
 
     const loadMore = () => {
-        isShowUsers && setPage(prev => prev + 1)
-        if (!isShowUsers) setIsShowUsers(true)
+        users && setPage(prev => prev + 1)
     }
 
     const toggleForm = () => setIsShowForm(prev => !prev)
 
+    const getSearchResult = async (searchQuery, pageNumber) => {
+        const skip = pageNumber * SKIP - LIMIT
+        const toastId = toast.loading('Loading...')
+        try {
+            const { users, total } = await searchUser(searchQuery, skip, LIMIT)
+            if (total) {
+                setUsers(prev => (prev ? [...prev, ...users] : [...users]))
+                toast.success(`Finned ${total} users`, {
+                    id: toastId,
+                })
+            } else {
+                toast.error('Not found', {
+                    id: toastId,
+                })
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
+    }
+
+    useEffect(() => {
+        page === 1 && setUsers(null)
+        searchQuery && getSearchResult(searchQuery, page)
+    }, [searchQuery, page])
+
+    const handleSearchQuery = query => {
+        setSearchQuery(query)
+        setPage(1)
+    }
+
     return (
-        <Section title={'Users List'}>
-            <Button
-                text={isShowUsers ? 'Hide Users' : 'Show All Users'}
-                handleClick={isShowUsers ? closeUsers : showUsers}
-            />
-            {isShowForm ? (
-                <FormikForm addUser={addUser} closeForm={toggleForm} />
-            ) : (
-                <Button text={'Show Form'} handleClick={toggleForm} />
-            )}
+        <>
+            <Toaster />
+            <Section title={'Users List'}>
+                <SearchForm handleSearchQuery={handleSearchQuery} />
+                <Button
+                    text={isShowUsers ? 'Hide Users' : 'Show All Users'}
+                    handleClick={isShowUsers ? closeUsers : showUsers}
+                />
+                {isShowForm ? (
+                    <FormikForm addUser={addUser} closeForm={toggleForm} />
+                ) : (
+                    <Button text={'Show Form'} handleClick={toggleForm} />
+                )}
 
-            {error && <h2>error</h2>}
-            {isLoading && <h2>Loading...</h2>}
+                {users && (
+                    <>
+                        <UsersList
+                            users={users}
+                            deleteUsers={deleteUsers}
+                            openDetails={openDetails}
+                        />
+                        {users.length > LIMIT && (
+                            <Button handleClick={loadMore} text={'more...'} />
+                        )}
+                    </>
+                )}
 
-            {users && (
-                <>
-                    <UsersList
-                        users={users}
-                        deleteUsers={deleteUsers}
-                        openDetails={openDetails}
-                    />
-                    <Button handleClick={loadMore} text={'more...'} />
-                </>
-            )}
-
-            {userDetails && (
-                <Modal user={userDetails} closeDetails={closeDetails} />
-            )}
-        </Section>
+                {userDetails && (
+                    <Modal user={userDetails} closeDetails={closeDetails} />
+                )}
+            </Section>
+        </>
     )
 }
 
