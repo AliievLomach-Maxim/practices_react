@@ -1,101 +1,104 @@
-import { Component } from 'react'
+import { useEffect, useState } from 'react'
 import Section from 'components/Section/Section'
 import UsersList from './components/UserList/UsersList'
 import Button from 'components/Button/Button'
 import Modal from 'components/Modal/Modal'
-import { getUsers } from 'api/api'
+import { createUser, getUsers } from 'api/api'
+import FormikForm from 'components/Form/FormikForm'
 
-class App extends Component {
-    static limit = 10
-    static skip = 10
-    state = {
-        users: null,
-        isShowForm: false,
-        userDetails: null,
-        isShowUsers: false,
-        page: 1,
-        isLoading: false,
-        error: '',
-    }
+const SKIP = 10
+const LIMIT = 10
 
-    componentDidUpdate(_, prevState) {
-        const { isShowUsers, page } = this.state
-        if (
-            isShowUsers &&
-            (prevState.isShowUsers !== isShowUsers || prevState.page !== page)
-        )
-            this.handleUsers(page)
+const App = () => {
+    const [users, setUsers] = useState(null)
+    const [userDetails, setUserDetails] = useState(null)
+    const [isShowUsers, setIsShowUsers] = useState(false)
+    const [isShowForm, setIsShowForm] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [page, setPage] = useState(1)
 
-        if (!isShowUsers && prevState.isShowUsers !== isShowUsers)
-            this.setState({ page: 1, users: null })
-    }
+    useEffect(() => {
+        isShowUsers && handleUsers(page)
+    }, [isShowUsers, page])
 
-    handleUsers = async page => {
-        const skip = page * App.skip - App.limit
-        this.setState({ isLoading: true })
+    const handleUsers = async page => {
+        const skip = page * SKIP - LIMIT
+        setIsLoading(true)
         try {
-            const { users } = await getUsers(skip, App.limit)
-            this.setState(prev => ({
-                users: prev.users ? [...prev.users, ...users] : users,
-                isLoading: false,
-            }))
+            const { users } = await getUsers(skip, LIMIT)
+            setUsers(prev => (prev ? [...prev, ...users] : users))
+            setIsLoading(false)
         } catch (error) {
-            this.setState({ error: error.message, isLoading: false })
+            setIsLoading(false)
+            setError(error.message)
         }
     }
 
-    deleteUsers = userId => {
-        this.setState(prev => ({
-            users: prev.users.filter(({ id }) => id !== userId),
-        }))
+    const addUser = async user => {
+        setIsLoading(true)
+        try {
+            const data = await createUser(user)
+            setUsers(prev => (prev ? [data, ...prev] : [data]))
+            setIsLoading(false)
+        } catch (error) {
+            setIsLoading(false)
+            setError(error.message)
+        }
     }
 
-    openDetails = user => {
-        this.setState({ userDetails: user })
+    const deleteUsers = userId =>
+        setUsers(prev => prev.filter(({ id }) => id !== userId))
+
+    const openDetails = user => setUserDetails(user)
+
+    const closeDetails = () => setUserDetails(null)
+
+    const closeUsers = () => {
+        setIsShowUsers(false)
+        setUsers(null)
     }
 
-    closeDetails = () => this.setState({ userDetails: null })
+    const showUsers = () => setIsShowUsers(true)
 
-    toggleUsers = () => {
-        this.setState(prev => ({ isShowUsers: !prev.isShowUsers }))
+    const loadMore = () => {
+        isShowUsers && setPage(prev => prev + 1)
+        if (!isShowUsers) setIsShowUsers(true)
     }
 
-    loadMore = () => {
-        this.setState(prev => ({ page: prev.page + 1 }))
-    }
+    const toggleForm = () => setIsShowForm(prev => !prev)
 
-    render() {
-        const { users, userDetails, isShowUsers, isLoading, error } = this.state
-        return (
-            <Section title={'Users List'}>
-                <Button
-                    text={isShowUsers ? 'Hide Users' : 'Show Users'}
-                    handleClick={this.toggleUsers}
-                />
+    return (
+        <Section title={'Users List'}>
+            <Button
+                text={isShowUsers ? 'Hide Users' : 'Show All Users'}
+                handleClick={isShowUsers ? closeUsers : showUsers}
+            />
+            {isShowForm ? (
+                <FormikForm addUser={addUser} closeForm={toggleForm} />
+            ) : (
+                <Button text={'Show Form'} handleClick={toggleForm} />
+            )}
 
-                {error && <h2>error</h2>}
-                {isLoading && <h2>Loading...</h2>}
+            {error && <h2>error</h2>}
+            {isLoading && <h2>Loading...</h2>}
 
-                {users && (
-                    <>
-                        <UsersList
-                            users={users}
-                            deleteUsers={this.deleteUsers}
-                            openDetails={this.openDetails}
-                        />
-                        <Button handleClick={this.loadMore} text={'more...'} />
-                    </>
-                )}
-
-                {userDetails && (
-                    <Modal
-                        user={this.state.userDetails}
-                        closeDetails={this.closeDetails}
+            {users && (
+                <>
+                    <UsersList
+                        users={users}
+                        deleteUsers={deleteUsers}
+                        openDetails={openDetails}
                     />
-                )}
-            </Section>
-        )
-    }
+                    <Button handleClick={loadMore} text={'more...'} />
+                </>
+            )}
+
+            {userDetails && (
+                <Modal user={userDetails} closeDetails={closeDetails} />
+            )}
+        </Section>
+    )
 }
 
 export default App

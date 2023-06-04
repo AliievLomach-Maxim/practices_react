@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { PropTypes } from 'prop-types'
 import {
     ButtonClose,
@@ -8,43 +9,35 @@ import {
     ModalTitle,
     Overlay,
 } from './Modal.styled'
-import { Component } from 'react'
 
-class Modal extends Component {
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleEsc)
-    }
+const Modal = ({ user: { firstName, image, email }, closeDetails }) => {
+    useEffect(() => {
+        const handleEsc = e => {
+            e.code === 'Escape' && closeDetails()
+        }
+        document.addEventListener('keydown', handleEsc)
 
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleEsc)
-    }
+        return () => {
+            document.removeEventListener('keydown', handleEsc)
+        }
+    }, [closeDetails])
 
-    handleEsc = e => {
-        e.code === 'Escape' && this.props.closeDetails()
-    }
-
-    render() {
-        const {
-            user: { firstName, image, email },
-            closeDetails,
-        } = this.props
-        return (
-            <Overlay onClick={closeDetails}>
-                <ModalContainer>
-                    <ModalContent>
-                        <ModalHeader>
-                            <ModalTitle>{firstName} </ModalTitle>
-                            <ButtonClose onClick={closeDetails}>×</ButtonClose>
-                        </ModalHeader>
-                        <ModalBody>
-                            <img src={image} alt={'Avatar'} />
-                            <p>Email: {email}</p>
-                        </ModalBody>
-                    </ModalContent>
-                </ModalContainer>
-            </Overlay>
-        )
-    }
+    return (
+        <Overlay onClick={closeDetails}>
+            <ModalContainer>
+                <ModalContent>
+                    <ModalHeader>
+                        <ModalTitle>{firstName} </ModalTitle>
+                        <ButtonClose onClick={closeDetails}>×</ButtonClose>
+                    </ModalHeader>
+                    <ModalBody>
+                        <img src={image} alt={'Avatar'} />
+                        <p>Email: {email}</p>
+                    </ModalBody>
+                </ModalContent>
+            </ModalContainer>
+        </Overlay>
+    )
 }
 
 export default Modal
