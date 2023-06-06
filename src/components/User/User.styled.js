@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 export const Title = styled.h2`
@@ -29,4 +30,21 @@ export const StyledButton = styled.button`
     border-radius: 8px;
     display: block;
     margin-top: 10px;
+`
+
+export const StyledLink = styled(Link)`
+    cursor: pointer;
+    width: 120px;
+    padding: 10px;
+    background-color: burlywood;
+    text-align: center;
+    border-radius: 8px;
+    display: block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: black;
+    box-shadow: 0 0 12px black;
+    &:hover {
+        box-shadow: 0 0 18px black;
+    }
 `
