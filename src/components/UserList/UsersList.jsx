@@ -2,16 +2,11 @@ import React from 'react'
 import User from '../User/User'
 import PropTypes from 'prop-types'
 
-const UsersList = ({ users, deleteUsers, openDetails }) => {
+const UsersList = ({ users, isDetails }) => {
     return (
         <ul>
             {users.map(user => (
-                <User
-                    key={user.id}
-                    user={user}
-                    deleteUsers={deleteUsers}
-                    openDetails={openDetails}
-                />
+                <User key={user.id} user={user} isDetails={isDetails} />
             ))}
         </ul>
     )
@@ -27,8 +22,7 @@ UsersList.propTypes = {
             phone: PropTypes.string,
         })
     ),
-    deleteUsers: PropTypes.func.isRequired,
-    openDetails: PropTypes.func.isRequired,
+    isDetails: PropTypes.bool,
 }
 
 export default UsersList

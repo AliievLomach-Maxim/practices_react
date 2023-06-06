@@ -1,13 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Section from '../Section/Section'
-import { StyledButton, NativeText, Text, Title } from './User.styled'
+import { NativeText, Text, Title, StyledLink } from './User.styled'
 
-const User = ({
-    user: { id, firstName, image, email, phone },
-    deleteUsers,
-    openDetails,
-}) => {
+const User = ({ user: { id, firstName, image, email, phone }, isDetails }) => {
     const isEndedBiz = email.endsWith('biz')
 
     return (
@@ -22,14 +18,9 @@ const User = ({
                     Email:
                     <NativeText isEndedBiz={isEndedBiz}>{email}</NativeText>
                 </Text>
-                <StyledButton
-                    onClick={() => openDetails({ firstName, image, email })}
-                >
-                    Show Details
-                </StyledButton>
-                <StyledButton onClick={() => deleteUsers(id)}>
-                    Delete
-                </StyledButton>
+                {isDetails && (
+                    <StyledLink to={`/users/${id}`}>Show Details</StyledLink>
+                )}
             </li>
         </Section>
     )
@@ -43,8 +34,8 @@ User.propTypes = {
         email: PropTypes.string.isRequired,
         phone: PropTypes.string,
     }),
-    deleteUsers: PropTypes.func.isRequired,
     openDetails: PropTypes.func.isRequired,
+    isDetails: PropTypes.bool,
 }
 
 export default User
