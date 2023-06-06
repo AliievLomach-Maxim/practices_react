@@ -1,18 +1,17 @@
-import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { Form } from './SearchForm.styled'
 
-const SearchForm = ({ handleSearchQuery }) => {
-    const [searchQuery, setSearchQuery] = useState('')
-
-    const handleChange = ({ target: { value } }) => setSearchQuery(value)
+const SearchForm = ({ handleSearchQuery, setSearchParams, searchQuery }) => {
+    const handleChange = ({ target: { value } }) =>
+        setSearchParams({ search: value })
 
     const handleSubmit = e => {
         e.preventDefault()
-        handleSearchQuery(searchQuery)
+        handleSearchQuery()
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
             <input
                 type="search"
                 placeholder="Search user by name"
@@ -20,12 +19,14 @@ const SearchForm = ({ handleSearchQuery }) => {
                 onChange={handleChange}
             />
             <button>Search</button>
-        </form>
+        </Form>
     )
 }
 
 SearchForm.propTypes = {
     handleSearchQuery: PropTypes.func.isRequired,
+    setSearchParams: PropTypes.func.isRequired,
+    searchQuery: PropTypes.string.isRequired,
 }
 
 export default SearchForm

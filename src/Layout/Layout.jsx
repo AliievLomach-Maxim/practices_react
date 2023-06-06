@@ -1,8 +1,7 @@
-import Navigation from 'Navigation/Navigation'
-import React from 'react'
-import { Header } from './Layout.styled'
 import { Outlet } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import Navigation from 'components/Navigation/Navigation'
+import { Header } from './Layout.styled'
 
 const Layout = () => {
     return (

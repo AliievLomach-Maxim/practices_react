@@ -1,17 +1,30 @@
-import Layout from 'Layout/Layout'
-import HomePage from 'pages/HomePage'
-import UserDetailsPage from 'pages/UserDetailsPage'
-import UsersPage from 'pages/UsersPage'
-import React from 'react'
+import { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
+
+const Layout = lazy(() => import('Layout/Layout'))
+const Posts = lazy(() => import('components/Posts/Posts'))
+const Todos = lazy(() => import('components/Todos/Todos'))
+const HomePage = lazy(() => import('pages/HomePage'))
+const UsersPage = lazy(() => import('pages/UsersPage'))
+const UserDetailsPage = lazy(() => import('pages/UserDetailsPage'))
 
 const App = () => {
     return (
         <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route
+                path="/"
+                element={
+                    <Suspense>
+                        <Layout />
+                    </Suspense>
+                }
+            >
                 <Route index element={<HomePage />} />
                 <Route path="users" element={<UsersPage />} />
-                <Route path="users/:id" element={<UserDetailsPage />} />
+                <Route path="users/:id" element={<UserDetailsPage />}>
+                    <Route path="posts" element={<Posts />} />
+                    <Route path="todos" element={<Todos />} />
+                </Route>
             </Route>
         </Routes>
     )

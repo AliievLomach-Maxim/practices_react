@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { toast } from 'react-hot-toast'
+import { useSearchParams } from 'react-router-dom'
+import { searchUser } from 'api/api'
 import Button from 'components/Button/Button'
 import SearchForm from 'components/Form/SearchForm'
 import UsersList from 'components/UserList/UsersList'
-import { toast } from 'react-hot-toast'
-import { searchUser } from 'api/api'
 
 const LIMIT = 10
 const SKIP = 10
@@ -11,12 +12,22 @@ const SKIP = 10
 const UsersPage = () => {
     const [users, setUsers] = useState(null)
     const [page, setPage] = useState(1)
-    const [searchQuery, setSearchQuery] = useState('')
+    const [search, setSearch] = useState('')
+    const [searchParams, setSearchParams] = useSearchParams()
 
-    const handleSearchQuery = query => {
-        setSearchQuery(query)
+    const searchQuery = useMemo(
+        () => searchParams.get('search') ?? '',
+        [searchParams]
+    )
+
+    const handleSearchQuery = () => {
         setPage(1)
+        setSearch(searchQuery)
     }
+
+    useEffect(() => {
+        !searchQuery && setSearchParams({})
+    }, [searchQuery, setSearchParams])
 
     const getSearchResult = async (searchQuery, pageNumber) => {
         const skip = pageNumber * SKIP - LIMIT
@@ -40,14 +51,18 @@ const UsersPage = () => {
 
     useEffect(() => {
         page === 1 && setUsers(null)
-        searchQuery && getSearchResult(searchQuery, page)
-    }, [searchQuery, page])
+        search && getSearchResult(search, page)
+    }, [search, page])
 
     const loadMore = () => setPage(prev => prev + 1)
 
     return (
         <>
-            <SearchForm handleSearchQuery={handleSearchQuery} />
+            <SearchForm
+                handleSearchQuery={handleSearchQuery}
+                searchQuery={searchQuery}
+                setSearchParams={setSearchParams}
+            />
             {users && (
                 <>
                     <UsersList users={users} isDetails />

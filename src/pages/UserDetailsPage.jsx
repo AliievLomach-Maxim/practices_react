@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
 import { getUserDetails } from 'api/api'
 import User from 'components/User/User'
-import React, { useEffect, useState } from 'react'
-import { toast } from 'react-hot-toast'
-import { useParams } from 'react-router-dom'
 
 const UserDetailsPage = () => {
     const { id } = useParams()

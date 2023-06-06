@@ -22,3 +22,13 @@ export const searchUser = async (query, skip, limit) => {
     )
     return data
 }
+
+export const getPostsByUserId = async userId => {
+    const { data } = await axios(`${userId}/posts`)
+    return data
+}
+
+export const getTodosByUserId = async userId => {
+    const { data } = await axios(`${userId}/todos`)
+    return data
+}

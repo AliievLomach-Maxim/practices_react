@@ -1,8 +1,8 @@
+import { useEffect, useState } from 'react'
+import { toast } from 'react-hot-toast'
 import { getUsers } from 'api/api'
 import Button from 'components/Button/Button'
 import UsersList from 'components/UserList/UsersList'
-import React, { useEffect, useState } from 'react'
-import { toast } from 'react-hot-toast'
 
 const SKIP = 10
 const LIMIT = 10
@@ -11,6 +11,7 @@ const HomePage = () => {
     const [users, setUsers] = useState(null)
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
+
     useEffect(() => {
         handleUsers(page)
     }, [page])
