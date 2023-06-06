@@ -851,9 +851,9 @@ users.length > LIMIT
 
 </details>
 <details>
-  <summary>Заняття 1</summary>
+  <summary>Заняття 2</summary>
 
-### Заняття 1
+### Заняття 2
 
 -   [ ] Створюємо нову гілку `Module-05/Less-02`
 
