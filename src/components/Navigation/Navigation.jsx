@@ -1,4 +1,3 @@
-import React from 'react'
 import { NavList, StyledNavLink } from './Navigation.styled'
 
 const Navigation = () => {
