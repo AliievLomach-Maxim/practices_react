@@ -982,7 +982,7 @@ const searchQuery = useMemo(
 ---
 
 -   [ ] Тепер необхідно створити папку `store`
--   [ ] Далі потрібно створити файл `store.js та папку `todos`з наступними
+-   [ ] Далі потрібно створити файл `store.js` та папку `todos`з наступними
         файлами:
 -   `actions.js`
 -   `selectors.js`
@@ -1031,9 +1031,9 @@ const searchQuery = useMemo(
 
 ```javascript
 {
-        id: nanoid(),
-        todoName,
-        completed: false,
+  id: nanoid(),
+  todoName,
+  completed: false,
 }
 ```
 
