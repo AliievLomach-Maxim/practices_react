@@ -1062,7 +1062,7 @@ const searchQuery = useMemo(
 <details>
   <summary>Заняття 2</summary>
 
-### Заняття 1
+### Заняття 2
 
 -   [ ] Створюємо нову гілку `Module-06/Less-02`
 
