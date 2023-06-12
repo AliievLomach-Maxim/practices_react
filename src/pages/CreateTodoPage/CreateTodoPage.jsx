@@ -1,8 +1,7 @@
+import { useRef, useState } from 'react'
 import { Form } from 'components/Form/SearchForm.styled'
-import { nanoid } from 'nanoid'
-import React, { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { createTodoAction } from 'store/todos/actions'
+import { createTodo } from 'store/todos/todoSlice'
 
 const CreateTodoPage = () => {
     const [todoName, setTodoName] = useState('')
@@ -17,13 +16,7 @@ const CreateTodoPage = () => {
 
     const handleSubmit = e => {
         e.preventDefault()
-        dispatch(
-            createTodoAction({
-                id: nanoid(),
-                todoName,
-                completed: false,
-            })
-        )
+        dispatch(createTodo(todoName))
         setTodoName('')
         inputRef.current.focus()
     }

@@ -1,25 +1,35 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteTodoAction } from 'store/todos/actions'
 import { getTodoSelector } from 'store/todos/selectors'
-import { List } from './TodosPage.styled'
+import { DeleteBtn, Li, List, StatusBtn } from './TodosPage.styled'
+import { deleteTodo, changeCompleted } from 'store/todos/todoSlice'
 
 const TodosPage = () => {
     const todos = useSelector(getTodoSelector)
 
     const dispatch = useDispatch()
 
-    const handleDelete = id => dispatch(deleteTodoAction(id))
+    const handleDelete = id => dispatch(deleteTodo(id))
+
+    const changeStatus = id => dispatch(changeCompleted(id))
 
     return (
         <List>
             {todos.map(({ id, todoName, completed }) => (
-                <li key={id}>
+                <Li key={id} completed={completed}>
                     <div>
                         <h3>{todoName}</h3>
                         <p>{completed.toString()}</p>
                     </div>
-                    <button onClick={() => handleDelete(id)}>X</button>
-                </li>
+                    {completed ? 'Completed' : 'Progress'}
+                    <div>
+                        <StatusBtn onClick={() => changeStatus(id)}>
+                            Change status
+                        </StatusBtn>
+                        <DeleteBtn onClick={() => handleDelete(id)}>
+                            X
+                        </DeleteBtn>
+                    </div>
+                </Li>
             ))}
         </List>
     )
