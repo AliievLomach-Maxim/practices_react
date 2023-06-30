@@ -7,7 +7,6 @@ import SearchForm from 'components/Form/SearchForm'
 import UsersList from 'components/UserList/UsersList'
 
 const LIMIT = 10
-const SKIP = 10
 
 const UsersPage = () => {
     const [users, setUsers] = useState(null)
@@ -30,10 +29,13 @@ const UsersPage = () => {
     }, [searchQuery, setSearchParams])
 
     const getSearchResult = async (searchQuery, pageNumber) => {
-        const skip = pageNumber * SKIP - LIMIT
         const toastId = toast.loading('Loading...')
         try {
-            const { users, total } = await searchUser(searchQuery, skip, LIMIT)
+            const { users, total } = await searchUser(
+                searchQuery,
+                pageNumber,
+                LIMIT
+            )
             if (total) {
                 setUsers(prev => (prev ? [...prev, ...users] : [...users]))
                 toast.success(`Finned ${total} users`, {

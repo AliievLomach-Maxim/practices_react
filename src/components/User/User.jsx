@@ -9,7 +9,7 @@ import {
     StyledButton,
 } from './User.styled'
 
-const User = ({ user: { id, firstName, image, email, phone }, isDetails }) => {
+const User = ({ user: { _id, firstName, image, email, phone }, isDetails }) => {
     const navigate = useNavigate()
     const location = useLocation()
 
@@ -38,7 +38,7 @@ const User = ({ user: { id, firstName, image, email, phone }, isDetails }) => {
                         <NativeText>{email}</NativeText>
                     </Text>
                     {isDetails ? (
-                        <StyledLink to={`${pathname}/${id}`} state={location}>
+                        <StyledLink to={`${pathname}/${_id}`} state={location}>
                             Show Details
                         </StyledLink>
                     ) : (
@@ -60,7 +60,7 @@ const User = ({ user: { id, firstName, image, email, phone }, isDetails }) => {
 
 User.propTypes = {
     user: PropTypes.shape({
-        id: PropTypes.number.isRequired,
+        _id: PropTypes.string.isRequired,
         firstName: PropTypes.string.isRequired,
         image: PropTypes.string,
         email: PropTypes.string.isRequired,

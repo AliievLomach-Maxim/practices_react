@@ -1,8 +1,8 @@
 import axios from 'axios'
-axios.defaults.baseURL = 'https://dummyjson.com/users'
+axios.defaults.baseURL = 'https://practices-api.vercel.app/users'
 
-export const getUsers = async (skip, limit) => {
-    const { data } = await axios(`?skip=${skip}&limit=${limit}`)
+export const getUsers = async (page, limit) => {
+    const { data } = await axios(`?page=${page}&limit=${limit}`)
     return data
 }
 

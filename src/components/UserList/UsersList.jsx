@@ -5,7 +5,7 @@ const UsersList = ({ users, isDetails }) => {
     return (
         <ul>
             {users.map(user => (
-                <User key={user.id} user={user} isDetails={isDetails} />
+                <User key={user._id} user={user} isDetails={isDetails} />
             ))}
         </ul>
     )
@@ -14,7 +14,7 @@ const UsersList = ({ users, isDetails }) => {
 UsersList.propTypes = {
     users: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.number.isRequired,
+            _id: PropTypes.string.isRequired,
             firstName: PropTypes.string.isRequired,
             image: PropTypes.string,
             email: PropTypes.string.isRequired,

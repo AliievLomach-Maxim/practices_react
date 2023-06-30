@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { getPostsByUserId } from 'api/api'
@@ -21,7 +21,15 @@ const Posts = () => {
         }
     }
 
-    return posts && posts.map(({ id, title }) => <h4 key={id}>{title}</h4>)
+    return (
+        posts &&
+        posts.map(({ _id, title, body }) => (
+            <Fragment key={_id}>
+                <h3>{title}</h3>
+                <p>{body}</p>
+            </Fragment>
+        ))
+    )
 }
 
 export default Posts
