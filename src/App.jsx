@@ -1,5 +1,3 @@
-import CreateTodoPage from 'pages/CreateTodoPage/CreateTodoPage'
-import TodosPage from 'pages/TodosPage/TodosPage'
 import { Suspense, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
@@ -27,8 +25,6 @@ const App = () => {
                     <Route path="posts" element={<Posts />} />
                     <Route path="todos" element={<Todos />} />
                 </Route>
-                <Route path="todos" element={<TodosPage />} />
-                <Route path="create-todo" element={<CreateTodoPage />} />
             </Route>
         </Routes>
     )
