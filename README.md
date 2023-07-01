@@ -1184,6 +1184,11 @@ export const usersReducer = usersSlice.reducer
 
 ---
 
+-   Також сторінки `TodoPage` та `CreateTodoPage` більше нам не знадобляться,
+    тому можна видалити їх та все що з ними повʼязано.
+
+---
+
 -   [ ] Виконуємо коміт та пуш в гілку `Module-07/Less-01`
 -   [ ] Створюємо `Pull request` на гілку `main`. Мержимо.
 

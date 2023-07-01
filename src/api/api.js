@@ -16,9 +16,9 @@ export const createUser = async user => {
     return data
 }
 
-export const searchUser = async (query, skip, limit) => {
+export const searchUser = async (query, page, limit) => {
     const { data } = await axios.get(
-        `/search?q=${query}&skip=${skip}&limit=${limit}`
+        `?name=${query}&page=${page}&limit=${limit}`
     )
     return data
 }
