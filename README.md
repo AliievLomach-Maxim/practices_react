@@ -1184,7 +1184,7 @@ export const usersReducer = usersSlice.reducer
 
 ---
 
--   Також сторінки `TodoPage` та `CreateTodoPage` більше нам не знадобляться,
+-   [ ] Також сторінки `TodoPage` та `CreateTodoPage` більше нам не знадобляться,
     тому можна видалити їх та все що з ними повʼязано.
 
 ---
