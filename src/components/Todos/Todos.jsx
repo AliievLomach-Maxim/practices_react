@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
-import { getTodosByUserId } from 'api/api'
+import { getTodosByUserId } from 'api/users'
 
 const Todos = () => {
     const [todos, setTodos] = useState(null)

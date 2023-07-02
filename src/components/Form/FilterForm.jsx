@@ -19,8 +19,7 @@ const FilterForm = ({ setFilterParams, filterQuery }) => {
 }
 
 FilterForm.propTypes = {
-    handleFilterQuery: PropTypes.func.isRequired,
-    setSearchParams: PropTypes.func.isRequired,
+    setFilterParams: PropTypes.func.isRequired,
     filterQuery: PropTypes.string.isRequired,
 }
 

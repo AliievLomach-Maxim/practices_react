@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
-import { searchUser } from 'api/api'
+import { searchUser } from 'api/users'
 import Button from 'components/Button/Button'
 import SearchForm from 'components/Form/SearchForm'
 import UsersList from 'components/UserList/UsersList'
