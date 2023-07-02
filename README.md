@@ -1201,7 +1201,7 @@ export const usersReducer = usersSlice.reducer
 <details>
   <summary>Заняття 2</summary>
 
-### Заняття 1
+### Заняття 2
 
 -   [ ] Створюємо нову гілку `Module-07/Less-02`
 
