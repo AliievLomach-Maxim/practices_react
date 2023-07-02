@@ -1,4 +1,4 @@
-import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { Formik, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { CustomForm } from './SearchFormik.styled'
 import { Link } from 'react-router-dom'
