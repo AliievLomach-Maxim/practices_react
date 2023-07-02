@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
-import { getPostsByUserId } from 'api/api'
+import { getPostsByUserId } from 'api/users'
 
 const Posts = () => {
     const [posts, setPosts] = useState(null)

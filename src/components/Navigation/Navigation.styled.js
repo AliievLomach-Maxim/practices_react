@@ -11,6 +11,14 @@ export const StyledNavLink = styled(NavLink)`
         text-shadow: 0px 0px 18px black;
     }
 `
+export const StyledNavButton = styled.a`
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    &:hover {
+        text-shadow: 0px 0px 18px black;
+    }
+`
 
 export const NavList = styled.ul`
     display: flex;

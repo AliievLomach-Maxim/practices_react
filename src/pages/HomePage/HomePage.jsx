@@ -8,6 +8,9 @@ import { filterSelector, usersSelector } from 'store/users/selectors'
 import FilterForm from 'components/Form/FilterForm'
 import { setFilter } from 'store/users/userSlice'
 import { useSearchParams } from 'react-router-dom'
+import { authSelector } from 'store/auth/selectors'
+import Profile from 'components/Profile/Profile'
+import Loader from 'components/Loader/Loader'
 
 const LIMIT = 10
 
@@ -22,6 +25,7 @@ const HomePage = () => {
     } = useSelector(usersSelector)
     const filter = useSelector(filterSelector)
     const [query, setFilterParams] = useSearchParams()
+    const { profile } = useSelector(authSelector)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -51,9 +55,10 @@ const HomePage = () => {
 
     return (
         <>
-            {isLoading && <h4>Loading...</h4>}
+            {isLoading && <Loader />}
             {users && (
                 <>
+                    {profile && <Profile profile={profile} />}
                     <FilterForm
                         filterQuery={filter}
                         setFilterParams={setFilterParams}
