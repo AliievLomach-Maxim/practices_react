@@ -8,4 +8,5 @@ export const StyledButton = styled.button`
     border-radius: 8px;
     display: block;
     margin-top: 10px;
+    margin: ${({ center }) => (center ? '0 auto 24px' : '')};
 `

@@ -1,7 +1,8 @@
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { getPostsByUserId } from 'api/users'
+import PostDetails from './PostDetails'
 
 const Posts = () => {
     const [posts, setPosts] = useState(null)
@@ -22,13 +23,7 @@ const Posts = () => {
     }
 
     return (
-        posts &&
-        posts.map(({ _id, title, body }) => (
-            <Fragment key={_id}>
-                <h3>{title}</h3>
-                <p>{body}</p>
-            </Fragment>
-        ))
+        posts && posts.map(post => <PostDetails key={post._id} post={post} />)
     )
 }
 

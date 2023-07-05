@@ -42,14 +42,9 @@ const User = ({ user: { _id, firstName, image, email, phone }, isDetails }) => {
                             Show Details
                         </StyledLink>
                     ) : (
-                        <>
-                            <StyledButton onClick={() => handleClick('posts')}>
-                                Posts
-                            </StyledButton>
-                            <StyledButton onClick={() => handleClick('todos')}>
-                                Todos
-                            </StyledButton>
-                        </>
+                        <StyledButton onClick={() => handleClick('posts')}>
+                            Posts
+                        </StyledButton>
                     )}
                 </li>
                 <Outlet />

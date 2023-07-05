@@ -10,8 +10,8 @@ export const getUserDetails = async id => {
     return data
 }
 
-export const createUser = async user => {
-    const { data } = await instance.post('/add', user)
+export const updateUser = async (id, user) => {
+    const { data } = await instance.put(`/users/${id}`, user)
     return data
 }
 

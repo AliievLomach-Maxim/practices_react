@@ -1,16 +1,4 @@
-export const handlePending = state => {
-    state.users.isLoading = true
-}
 
-export const handleRejected = (state, { payload }) => {
-    state.users.isLoading = false
-    state.users.error = payload
-}
-
-export const handleFulfilled = state => {
-    state.users.isLoading = false
-    state.users.error = null
-}
 
 export const handleGetFulfilled = (state, { payload }) => {
     payload.page > 1

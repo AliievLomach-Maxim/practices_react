@@ -11,6 +11,7 @@ const Navigation = () => {
     const handleLogOut = () => {
         dispatch(logOut())
         delToken()
+        localStorage.removeItem('token')
     }
 
     return (

@@ -1,9 +1,9 @@
 import { Formik, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { CustomForm } from './SearchFormik.styled'
+import { CustomForm } from './FormUpdateUserStyled'
 import { Link } from 'react-router-dom'
 
-const FormRegistration = ({ handleSubmit, isLoading }) => {
+const FormRegistration = ({ handleSubmit }) => {
     return (
         <Formik
             initialValues={{ firstName: '', email: '', password: '' }}
@@ -45,7 +45,7 @@ const FormRegistration = ({ handleSubmit, isLoading }) => {
 
                     <div className="containerSubmit">
                         <Link to="/signin">Log In</Link>
-                        <button disabled={!isValid || isLoading} type="submit">
+                        <button disabled={!isValid} type="submit">
                             Sign Up
                         </button>
                     </div>

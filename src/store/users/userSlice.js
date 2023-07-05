@@ -1,12 +1,7 @@
 import { initialState } from './initialState'
 import { createSlice } from '@reduxjs/toolkit'
 import { getAllUsersThunk } from './thunks'
-import {
-    handleFulfilled,
-    handleGetFulfilled,
-    handlePending,
-    handleRejected,
-} from './handlers'
+import { handleGetFulfilled } from './handlers'
 
 const usersSlice = createSlice({
     name: 'users',
@@ -17,20 +12,7 @@ const usersSlice = createSlice({
         },
     },
     extraReducers: builder => {
-        builder
-            .addCase(getAllUsersThunk.fulfilled, handleGetFulfilled)
-            .addMatcher(
-                action => action.type.endsWith('/pending'),
-                handlePending
-            )
-            .addMatcher(
-                action => action.type.endsWith('/fulfilled'),
-                handleFulfilled
-            )
-            .addMatcher(
-                action => action.type.endsWith('/rejected'),
-                handleRejected
-            )
+        builder.addCase(getAllUsersThunk.fulfilled, handleGetFulfilled)
     },
 })
 

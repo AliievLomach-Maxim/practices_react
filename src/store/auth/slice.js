@@ -1,10 +1,10 @@
+import { fulfilled, updateFulfilled } from './handlers'
 import {
-    fulfilled,
-    handleFulfilled,
-    handlePending,
-    handleRejected,
-} from './handlers'
-import { loginThunk, signupThunk } from './thunks'
+    loginThunk,
+    refreshThunk,
+    signupThunk,
+    updateUserThunk,
+} from './thunks'
 
 const { createSlice } = require('@reduxjs/toolkit')
 
@@ -30,18 +30,8 @@ const authSlice = createSlice({
         builder
             .addCase(loginThunk.fulfilled, fulfilled)
             .addCase(signupThunk.fulfilled, fulfilled)
-            .addMatcher(
-                action => action.type.endsWith('/pending'),
-                handlePending
-            )
-            .addMatcher(
-                action => action.type.endsWith('/fulfilled'),
-                handleFulfilled
-            )
-            .addMatcher(
-                action => action.type.endsWith('/rejected'),
-                handleRejected
-            )
+            .addCase(refreshThunk.fulfilled, fulfilled)
+            .addCase(updateUserThunk.fulfilled, updateFulfilled)
     },
 })
 export const authReducer = authSlice.reducer
