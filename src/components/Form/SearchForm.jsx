@@ -1,5 +1,12 @@
 import PropTypes from 'prop-types'
-import { Form } from './SearchForm.styled'
+import SearchIcon from '@mui/icons-material/Search'
+import {
+    FormControl,
+    IconButton,
+    InputAdornment,
+    Stack,
+    TextField,
+} from '@mui/material'
 
 const SearchForm = ({ handleSearchQuery, setSearchParams, searchQuery }) => {
     const handleChange = ({ target: { value } }) =>
@@ -11,15 +18,34 @@ const SearchForm = ({ handleSearchQuery, setSearchParams, searchQuery }) => {
     }
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <input
-                type="search"
-                placeholder="Search user by name"
-                value={searchQuery}
-                onChange={handleChange}
-            />
-            <button>Search</button>
-        </Form>
+        <form onSubmit={handleSubmit}>
+            <Stack>
+                <FormControl
+                    sx={{ m: '0 auto', width: 400 }}
+                    variant="outlined"
+                >
+                    <TextField
+                        id="outlined-adornment-weight"
+                        label="Search"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        type="submit"
+                                        sx={{ p: '10px' }}
+                                        aria-label="search"
+                                    >
+                                        <SearchIcon />
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
+                        value={searchQuery}
+                        onChange={handleChange}
+                    />
+                </FormControl>
+            </Stack>
+        </form>
     )
 }
 

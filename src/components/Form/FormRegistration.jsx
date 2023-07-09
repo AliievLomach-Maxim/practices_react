@@ -1,7 +1,14 @@
-import { Formik, Field, ErrorMessage } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
-import { CustomForm } from './FormUpdateUserStyled'
-import { Link } from 'react-router-dom'
+import {
+    Button,
+    CardActions,
+    CardContent,
+    Stack,
+    TextField,
+    Typography,
+} from '@mui/material'
+import { StyledLink } from './FormLogin'
 
 const FormRegistration = ({ handleSubmit }) => {
     return (
@@ -29,27 +36,95 @@ const FormRegistration = ({ handleSubmit }) => {
             })}
             onSubmit={values => handleSubmit(values)}
         >
-            {({ isValid }) => (
-                <CustomForm>
-                    <label htmlFor="firstName">First Name</label>
-                    <Field name="firstName" type="firstName" />
-                    <ErrorMessage name="firstName" component="div" />
-
-                    <label htmlFor="email">Email</label>
-                    <Field name="email" type="email" />
-                    <ErrorMessage name="email" component="div" />
-
-                    <label htmlFor="password">Password</label>
-                    <Field name="password" type="password" />
-                    <ErrorMessage name="password" component="div" />
-
-                    <div className="containerSubmit">
-                        <Link to="/signin">Log In</Link>
-                        <button disabled={!isValid} type="submit">
-                            Sign Up
-                        </button>
-                    </div>
-                </CustomForm>
+            {formik => (
+                <Stack sx={{ width: 400, m: '0 auto' }}>
+                    <Form>
+                        <Stack>
+                            <CardContent>
+                                <Stack spacing={6}>
+                                    <Stack>
+                                        <TextField
+                                            name="firstName"
+                                            type="firstName"
+                                            id="firstName"
+                                            label="First Name"
+                                            fullWidth
+                                            onChange={formik.handleChange}
+                                            error={formik.errors.firstName}
+                                        />
+                                        {formik.errors.firstName && (
+                                            <Typography
+                                                m={0}
+                                                p={0}
+                                                variant="subtitle1"
+                                                color="red"
+                                            >
+                                                {formik.errors.firstName}
+                                            </Typography>
+                                        )}
+                                    </Stack>
+                                    <Stack>
+                                        <TextField
+                                            name="email"
+                                            type="email"
+                                            id="email"
+                                            label="Email"
+                                            fullWidth
+                                            error={formik.errors.email}
+                                            onChange={formik.handleChange}
+                                        />
+                                        {formik.errors.email && (
+                                            <Typography
+                                                m={0}
+                                                p={0}
+                                                variant="subtitle1"
+                                                color="red"
+                                            >
+                                                {formik.errors.email}
+                                            </Typography>
+                                        )}
+                                    </Stack>
+                                    <Stack>
+                                        <TextField
+                                            name="password"
+                                            type="password"
+                                            id="password"
+                                            label="Password"
+                                            fullWidth
+                                            error={formik.errors.password}
+                                            onChange={formik.handleChange}
+                                        />
+                                        {formik.errors.password && (
+                                            <Typography
+                                                m={0}
+                                                p={0}
+                                                variant="subtitle1"
+                                                color="red"
+                                            >
+                                                {formik.errors.password}
+                                            </Typography>
+                                        )}
+                                    </Stack>
+                                </Stack>
+                            </CardContent>
+                        </Stack>
+                        <Stack mt={4} p={1}>
+                            <CardActions
+                                sx={{ justifyContent: 'space-between' }}
+                            >
+                                <StyledLink to="/signin">Log In</StyledLink>
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    size="large"
+                                    disabled={!formik.isValid}
+                                >
+                                    Sign Up
+                                </Button>
+                            </CardActions>
+                        </Stack>
+                    </Form>
+                </Stack>
             )}
         </Formik>
     )

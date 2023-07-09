@@ -20,7 +20,7 @@ const UserDetailsPage = () => {
         handleUsers()
     }, [id])
 
-    return user && <User user={user} />
+    return user && <User user={user} width={600} />
 }
 
 export default UserDetailsPage

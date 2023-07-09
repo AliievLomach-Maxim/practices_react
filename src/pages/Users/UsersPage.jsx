@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { useSearchParams } from 'react-router-dom'
 import { searchUser } from 'api/users'
-import Button from 'components/Button/Button'
 import SearchForm from 'components/Form/SearchForm'
 import UsersList from 'components/UserList/UsersList'
+import { Button, Stack, Typography } from '@mui/material'
 
 const LIMIT = 10
 
@@ -59,21 +59,30 @@ const UsersPage = () => {
     const loadMore = () => setPage(prev => prev + 1)
 
     return (
-        <>
-            <SearchForm
-                handleSearchQuery={handleSearchQuery}
-                searchQuery={searchQuery}
-                setSearchParams={setSearchParams}
-            />
+        <Stack>
+            <Stack mb={3}>
+                <SearchForm
+                    handleSearchQuery={handleSearchQuery}
+                    searchQuery={searchQuery}
+                    setSearchParams={setSearchParams}
+                />
+            </Stack>
             {users && (
                 <>
                     <UsersList users={users} isDetails />
                     {users.length > LIMIT && (
-                        <Button handleClick={loadMore} text={'more...'} />
+                        <Button
+                            variant="outlined"
+                            fullWidth
+                            sx={{ p: 2, mt: 4 }}
+                            onClick={loadMore}
+                        >
+                            <Typography variant="h5">More...</Typography>
+                        </Button>
                     )}
                 </>
             )}
-        </>
+        </Stack>
     )
 }
 
