@@ -1,8 +1,10 @@
 import FormRegistration from 'components/Form/FormRegistration'
-import { Container } from '../SignPage.styled'
+
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { signupThunk } from 'store/auth/thunks'
+import { Container } from 'pages/SignInPage/SignInPage'
+import { Stack, Typography } from '@mui/material'
 
 const SignUpPage = () => {
     const dispatch = useDispatch()
@@ -12,17 +14,17 @@ const SignUpPage = () => {
     }
 
     return (
-        <>
-            <Container>
+        <Container sx={{ maxWidth: 600, m: '0 auto' }}>
+            <Stack m={6}>
                 <Link className="homeLink" to="/">
                     Go Home
                 </Link>
-                <h2>Sign Up</h2>
-                <div>
-                    <FormRegistration handleSubmit={handleSubmit} />
-                </div>
-            </Container>
-        </>
+                <Typography variant="h5" sx={{ m: '0 auto' }}>
+                    Sign Up
+                </Typography>
+            </Stack>
+            <FormRegistration handleSubmit={handleSubmit} />
+        </Container>
     )
 }
 

@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'react-hot-toast'
-import Button from 'components/Button/Button'
 import UsersList from 'components/UserList/UsersList'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUsersThunk } from 'store/users/thunks'
@@ -8,6 +7,7 @@ import { filterSelector, usersSelector } from 'store/users/selectors'
 import FilterForm from 'components/Form/FilterForm'
 import { setFilter } from 'store/users/userSlice'
 import { useSearchParams } from 'react-router-dom'
+import { Button, Stack, Typography } from '@mui/material'
 
 const LIMIT = 10
 
@@ -41,16 +41,25 @@ const HomePage = () => {
 
     return (
         users && (
-            <>
-                <FilterForm
-                    filterQuery={filter}
-                    setFilterParams={setFilterParams}
-                />
+            <Stack>
+                <Stack mb={3}>
+                    <FilterForm
+                        filterQuery={filter}
+                        setFilterParams={setFilterParams}
+                    />
+                </Stack>
                 <UsersList users={users} isDetails />
-                {users.length < total && (
-                    <Button center handleClick={loadMore} text={'more...'} />
+                {users.length < total && Boolean(users.length) && (
+                    <Button
+                        variant="outlined"
+                        fullWidth
+                        sx={{ p: 2, mt: 4 }}
+                        onClick={loadMore}
+                    >
+                        <Typography variant="h5">More...</Typography>
+                    </Button>
                 )}
-            </>
+            </Stack>
         )
     )
 }

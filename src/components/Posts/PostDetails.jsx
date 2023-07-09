@@ -1,4 +1,14 @@
-import { Fragment, useEffect, useState } from 'react'
+import {
+    Avatar,
+    Button,
+    Card,
+    CardContent,
+    Stack,
+    Typography,
+} from '@mui/material'
+import { blueGrey } from '@mui/material/colors'
+import { TextareaAutosize } from '@mui/base'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { authSelector } from 'store/auth/selectors'
 import { commentsSelector } from 'store/comments/selectors'
@@ -6,6 +16,30 @@ import {
     createCommentThunk,
     getCommentsByPostThunk,
 } from 'store/comments/thunks'
+import styled from 'styled-components'
+
+const StyledTextarea = styled(TextareaAutosize)`
+    width: '100%';
+    font-family: IBM Plex Sans, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px;
+    border-radius: 12px 12px 0 12px;
+    color: #afb8c1;
+    background: #24292f;
+    border: 1px solid #424a53;
+    box-shadow: 0px 2px 2px #24292f;
+
+    &:hover {
+        border-color: #3399ff;
+    }
+
+    &:focus {
+        border-color: #3399ff;
+        box-shadow: 0 0 0 3px #007fff;
+    }
+`
 
 const PostDetails = ({ post: { _id, title, body } }) => {
     const { profile } = useSelector(authSelector)
@@ -36,25 +70,61 @@ const PostDetails = ({ post: { _id, title, body } }) => {
     }
 
     return (
-        <>
-            <h3>{title}</h3>
-            <p>{body}</p>
+        <Card p={2} sx={{ boxShadow: '0 0 12px inset gray', m: 2 }}>
+            <CardContent>
+                <Typography variant="h5">{title}</Typography>
+                <Typography variant="subtitle1">{body}</Typography>
 
-            {!commentsData && (
-                <button onClick={handleShow}>Show comments</button>
-            )}
-            {commentsData &&
-                commentsData.map(com => (
-                    <Fragment key={com._id}>
-                        <h3>{com.creator.firstName}</h3>
-                        <p>{com.body}</p>
-                    </Fragment>
-                ))}
-            <form onSubmit={handleSubmit}>
-                <textarea rows="2"></textarea>
-                <button>Add comment</button>
-            </form>
-        </>
+                {!commentsData && (
+                    <Button onClick={handleShow} sx={{ mb: 1 }}>
+                        Show comments
+                    </Button>
+                )}
+                {commentsData &&
+                    commentsData.map(com => (
+                        <Card
+                            p={2}
+                            key={com._id}
+                            sx={{ boxShadow: '0 0 12px  gray', m: 2 }}
+                        >
+                            <CardContent>
+                                <Stack
+                                    direction="row"
+                                    spacing={2}
+                                    alignItems="center"
+                                >
+                                    <Avatar
+                                        sx={{ bgcolor: blueGrey[900] }}
+                                        src={com.creator.image}
+                                    />
+                                    <Stack spacing={0.1}>
+                                        <Typography
+                                            variant="subtitle1"
+                                            color="GrayText"
+                                        >
+                                            {com.creator.firstName}
+                                        </Typography>
+                                        <Typography variant="subtitle1">
+                                            {com.body}
+                                        </Typography>
+                                    </Stack>
+                                </Stack>
+                            </CardContent>
+                        </Card>
+                    ))}
+                <form onSubmit={handleSubmit}>
+                    <Stack direction="column" spacing={1}>
+                        <StyledTextarea
+                            minRows={1}
+                            placeholder="Add comment..."
+                        />
+                        <Button sx={{ width: 130 }} type="submit">
+                            Add comment
+                        </Button>
+                    </Stack>
+                </form>
+            </CardContent>
+        </Card>
     )
 }
 

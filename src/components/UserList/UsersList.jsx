@@ -1,13 +1,20 @@
 import PropTypes from 'prop-types'
 import User from '../User/User'
+import { Grid } from '@mui/material'
+import { authSelector } from 'store/auth/selectors'
+import { useSelector } from 'react-redux'
 
 const UsersList = ({ users, isDetails }) => {
+    const { token } = useSelector(authSelector)
+
     return (
-        <ul>
+        <Grid container spacing={4} justifyContent="center">
             {users.map(user => (
-                <User key={user._id} user={user} isDetails={isDetails} />
+                <Grid item xs={token ? 6 : 3} key={user._id}>
+                    <User user={user} isDetails={isDetails} />
+                </Grid>
             ))}
-        </ul>
+        </Grid>
     )
 }
 

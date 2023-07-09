@@ -1,13 +1,14 @@
+import {
+    CardActions,
+    CardMedia,
+    Button,
+    Typography,
+    Card,
+    CardContent,
+} from '@mui/material'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import Section from '../Section/Section'
-import {
-    NativeText,
-    Text,
-    Title,
-    StyledLink,
-    StyledButton,
-} from './User.styled'
 
 const User = ({ user: { _id, firstName, image, email, phone }, isDetails }) => {
     const navigate = useNavigate()
@@ -22,33 +23,54 @@ const User = ({ user: { _id, firstName, image, email, phone }, isDetails }) => {
     return (
         <>
             {!isDetails && (
-                <StyledButton onClick={() => handleClick(location.state)}>
-                    {'<'}
-                </StyledButton>
+                <Button
+                    variant="text"
+                    sx={{ borderRadius: 30, p: 1 }}
+                    onClick={() => handleClick(location.state)}
+                >
+                    <ArrowBackIosIcon fontSize="large" />
+                </Button>
             )}
-            <Section>
-                <li>
-                    <img src={image} alt={'Avatar'} width="200px" />
-                    <Title>{firstName}</Title>
-                    <Text>
-                        Phone: <NativeText>{phone}</NativeText>
-                    </Text>
-                    <Text>
-                        Email:
-                        <NativeText>{email}</NativeText>
-                    </Text>
+            <Card sx={{ maxWidth: isDetails ? 400 : 600, m: '0 auto' }}>
+                <CardMedia
+                    sx={{ height: 440 }}
+                    image={image}
+                    title={firstName}
+                />
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        {firstName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        Phone: {phone}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        Email: {email}
+                    </Typography>
+                </CardContent>
+                <CardActions>
                     {isDetails ? (
-                        <StyledLink to={`${pathname}/${_id}`} state={location}>
+                        <Button
+                            size="medium"
+                            onClick={() =>
+                                navigate(`${pathname}/${_id}`, {
+                                    state: location,
+                                })
+                            }
+                        >
                             Show Details
-                        </StyledLink>
+                        </Button>
                     ) : (
-                        <StyledButton onClick={() => handleClick('posts')}>
+                        <Button
+                            size="medium"
+                            onClick={() => handleClick('posts')}
+                        >
                             Posts
-                        </StyledButton>
+                        </Button>
                     )}
-                </li>
+                </CardActions>
                 <Outlet />
-            </Section>
+            </Card>
         </>
     )
 }
